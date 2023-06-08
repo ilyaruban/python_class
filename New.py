@@ -15,6 +15,15 @@ class Student:
         for n in self.grades.keys():
             self.dict[n] = sum(self.grades[n]) / (len(self.grades[n]))
 
+    def __gt__(self, other):
+        if self.course_question_list == other.course_question_list:
+            if self.dict[self.course_question_list[0]] > other.dict[other.course_question_list[0]]:
+                return self
+            else:
+                return other
+        else:
+            return 'Сравнение производится в рамках одного курса, пожалуйста, введите одинаковые курсы студентов'
+
     def __str__(self):
         if 'Python' in self.course_question_list or 'Git' in self.course_question_list:
             print()
@@ -62,6 +71,15 @@ class Lecturer(Mentor):
     def course_question_list_1(self):
         course_question = input('Введите курс лектора, который вас интересует (Python, Git): ')
         self.course_question_list.append(course_question)
+
+    def __gt__(self, other):
+        if self.course_question_list == other.course_question_list:
+            if self.dict[self.course_question_list[0]] > other.dict[other.course_question_list[0]]:
+                return self
+            else:
+                return other
+        else:
+            return 'Сравнение производится в рамках одного курса, пожалуйста, введите одинаковые курсы лекторов'
 
     def __str__(self):
         if 'Python' in self.course_question_list or 'Git' in self.course_question_list:
@@ -120,17 +138,6 @@ some_lecturer_1.course_question_list_1()
 print()
 
 
-# функция для сравнения двух лекторов по средней оценке
-def compare_lectures(list_1, list_2):
-    if list_1.course_question_list == list_2.course_question_list:
-        if list_1.dict[list_1.course_question_list[0]] > list_2.dict[list_2.course_question_list[0]]:
-            return list_1
-        else:
-            return list_2
-    else:
-        return 'Сравнение производится в рамках одного курса, пожалуйста, введите одинаковые курсы лекторов'
-
-
 question = input('Сравнить лекторов по наибольшей средней оценке за лекции?: ')
 if question.lower() == 'нет':
     print()
@@ -139,24 +146,13 @@ if question.lower() == 'нет':
     print(some_lecturer_1)
 elif question.lower() == 'да':
     print()
-    print(compare_lectures(some_lecturer, some_lecturer_1))
+    print(some_lecturer.__gt__(some_lecturer_1))
 
 print()
 some_student.course_question_list_1()
 print()
 some_student_1.course_question_list_1()
 print()
-
-
-# функция для сравнения двух студентов по средней оценке
-def compare_students(list_1, list_2):
-    if list_1.course_question_list == list_2.course_question_list:
-        if list_1.dict[list_1.course_question_list[0]] > list_2.dict[list_2.course_question_list[0]]:
-            return list_1
-        else:
-            return list_2
-    else:
-        return 'Сравнение производится в рамках одного курса, пожалуйста, введите одинаковые курсы студентов'
 
 
 question = input('Сравнить студентов по наибольшей средней оценке за домашние задания?: ')
@@ -167,4 +163,4 @@ if question.lower() == 'нет':
     print(some_student_1)
 elif question.lower() == 'да':
     print()
-    print(compare_students(some_student, some_student_1))
+    print(some_student.__gt__(some_student_1))
